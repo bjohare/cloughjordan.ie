@@ -1,0 +1,25 @@
+.info {
+    width: auto;
+    height: 100%;
+    float: left;
+    padding-left: 2em;
+}
+
+div.olMap {
+    width: 600px;
+    height: 600px;
+    display: block;
+    float:left;
+    margin-right: 5em;
+    border: 1px solid grey;
+}
+
+img.olTileImage {
+     max-width: none;
+     border-radius: 0;
+     box-shadow: none;
+}
+
+
+
+

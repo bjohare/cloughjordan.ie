@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gppro-export-css\n"
+"POT-Creation-Date: 2014-01-26 22:09-0500\n"
+"PO-Revision-Date: 2014-01-26 22:09-0500\n"
+"Last-Translator: Andrew Norcross <andrew@andrewnorcross.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _e;__;_\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gppro-export-css.php:108
+msgid ""
+"This plugin requires Genesis Design Palette Pro to function and cannot be "
+"activated."
+msgstr ""
+
+#: gppro-export-css.php:162
+msgid "There was an error with your export. Please try again later."
+msgstr ""
+
+#: gppro-export-css.php:166
+msgid ""
+"No settings data has been saved. Please save your settings and try again."
+msgstr ""
+
+#: gppro-export-css.php:170
+msgid "No CSS file exists to export. Please save your settings and try again."
+msgstr ""
+
+#: gppro-export-css.php:250
+msgid "Export Raw CSS"
+msgstr ""
+
+#: gppro-export-css.php:251
+msgid "Download a stand-alone CSS file"
+msgstr ""
+
+#: gppro-export-css.php:260
+msgid "Download CSS file"
+msgstr ""
+
+#: gppro-export-css.php:261
+msgid "Export CSS"
+msgstr ""
+
+#: gppro-export-css.php:291
+msgid ""
+"No data has been saved. Please save your settings before attempting to "
+"export."
+msgstr ""
+
+#: gppro-export-css.php:301
+msgid "Export File"
+msgstr ""
+
+#: gppro-export-css.php:324
+msgid "View in browser"
+msgstr ""
