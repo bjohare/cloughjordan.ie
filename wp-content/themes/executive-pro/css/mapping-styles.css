@@ -1,5 +1,5 @@
 .info {
-    width: auto;
+    width: 40%;
     height: 100%;
     float: left;
     padding-left: 2em;
@@ -20,6 +20,27 @@ img.olTileImage {
      box-shadow: none;
 }
 
+.olControlLayerSwitcher {
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.olControlLayerSwitcher .layersDiv{
+    border: 1px solid grey;
+    background-color: #222222 !important;
+    -moz-border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.maximizeDiv .olButton {
+    background-color: #222222 !important;
+    
+}
+
+.dataLbl {
+    display: none;
+}
 
 
 

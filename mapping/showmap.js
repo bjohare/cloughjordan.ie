@@ -27,6 +27,12 @@ var defaultStyle = new OpenLayers.Style({
 var selectStyle = new OpenLayers.Style({
     pointRadius: 10,
     fillColor: "yellow",
+    label: " ${name}",
+    labelAlign: "lm",
+    labelXOffset: "20",
+    labelOutlineColor: "white",
+    labelOutlineWidth: 3,
+    fontSize: 16,
 });
 
 var pointStyles = new OpenLayers.StyleMap(
@@ -96,10 +102,25 @@ infoctl.events.register("featureselected", this, function(e){
         var feature = e.feature;
         attrs = feature.attributes;
         
+        /* center the map on the selected waypoint */
+        var center = new OpenLayers.LonLat(attrs.longitude, attrs.latitude);
+        center.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+        map.setCenter(center,12);
+        
         /* clear existing feature info and rebuild */
         $('#info').empty();
-        $('#info').append('<h4>' + attrs.Name + '</h4>');
-        $('#info').append('<p>Elevation: ' + attrs.Elevation + ' metres</p>');
+        $('#info').append('<h4>' + attrs.name + '</h4>');
+        $('#info').append('<p><img src="http://54.229.185.240/manager/media/' + attrs.image_path + '"/></p>');
+        $('#info').append('<p>' + attrs.description + '</p>');
+        $('#info').append('<strong>Elevation:</strong> ' + attrs.elevation.split('.')[0] + ' metres<br/>');
+        $('#info').append('<strong>Latitude:</strong> ' + attrs.latitude + '<br/>');
+        $('#info').append('<strong>Longitude:</strong> ' + attrs.longitude);
+});
+
+/* feature unselection event handling */
+infoctl.events.register("featureunselected", this, function(e){
+        $('#info').empty();
+        $('#info').append('<span>Click a point on the map for more information</span>');
 });
 
 
@@ -107,6 +128,8 @@ infoctl.events.register("featureselected", this, function(e){
 map.addControl(infoctl);
 infoctl.activate();
 
+/* Add map controls */
+map.addControl(new OpenLayers.Control.ScaleLine());
 map.addControl(new OpenLayers.Control.LayerSwitcher());
 
 
