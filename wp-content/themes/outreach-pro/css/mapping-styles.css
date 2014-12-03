@@ -1,0 +1,48 @@
+.info {
+    width: 40%;
+    height: 100%;
+    float: left;
+    padding-left: 2em;
+    font-family: Lato;
+    font-size: medium;
+}
+
+div.olMap {
+    width: 600px;
+    height: 600px;
+    display: block;
+    float:left;
+    margin-right: 5em;
+    border: 1px solid grey;
+}
+
+img.olTileImage {
+     max-width: none;
+     border-radius: 0;
+     box-shadow: none;
+}
+
+.olControlLayerSwitcher {
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.olControlLayerSwitcher .layersDiv{
+    border: 1px solid grey;
+    background-color: #222222 !important;
+    -moz-border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.maximizeDiv .olButton {
+    background-color: #222222 !important;
+    
+}
+
+.dataLbl {
+    display: none;
+}
+
+
+

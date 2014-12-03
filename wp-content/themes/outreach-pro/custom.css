@@ -1,0 +1,396 @@
+/*
+	Theme Name: Cloughjordan
+	Theme URI: http://www.cloughjordan.ie/themes/outreach/
+	Description: A mobile responsive and HTML5 theme built for the Genesis Framework.
+	Author: Laur Danescu
+	Author URI: www.cloughjordan.ie
+	Version: 0.9
+	
+	Tags: black, green, white, one-column, two-columns, three-columns, left-sidebar, right-sidebar, responsive-layout, custom-menu, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	
+	Template: genesis
+	Template Version: 2.1
+	
+	License: GPL-2.0+
+	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/*
+Site Navigation
+---------------------------------------------------------------------------------------------------- */
+
+
+.nav-primary {
+	/*background-color: #002A02;*/
+    /*background-color: #118D4F;*/
+    background-color: #118D4F;
+}
+
+.genesis-nav-menu > .menu-item > a {
+ 	text-transform:none;
+}
+
+.genesis-nav-menu .menu-item {
+	font-size:18px;	
+	font-family: 'Playfair Display', serif;
+	text-transform:none;
+	color: #002A02;
+}
+
+.genesis-nav-menu .sub-menu a {
+	font-size: 14px;	
+	font-family: 'Playfair Display', serif;
+	text-transform:none;
+	color: #002A02;
+	background-color: #FDFBEE;
+}
+
+.genesis-nav-menu .current-menu-item > a, .genesis-nav-menu .sub-menu .current-menu-item > a:hover, .genesis-nav-menu a:hover, .genesis-nav-menu li:hover > a {
+	text-transform:none;
+	color: #118D4F;	
+	font-family: 'Playfair Display', serif;
+	text-decoration:none;
+}
+.site-title {
+	text-transform:none;
+	/*font-weight:600;*/
+	font-size:46px;
+}
+
+.site-title a, .site-title a:hover {
+	color: #fff;
+	font-family: 'Josefin Sans', sans-serif;
+	font-weight: 400;
+	text-shadow: 1px 2px 0.5px #118D4F;
+    text-decoration: none;
+}
+
+.site-description {
+	font-family: 'Playfair Display', serif;
+	color:#118D4F;
+	text-indent:5px;
+	font-size: 18px;
+	letter-spacing:2px;
+	font-style:italic;
+	margin:3px;
+	padding:3px;
+}
+
+input {
+	color:#333;
+	background-color: #FDFBEE;
+}
+
+.home-bottom .featured-content img {
+	width: 260px;
+}
+
+.site-header {
+	/*background-color: #002A02;*/
+	background-color: #363636;
+	padding:1px;		
+}
+
+.breadcrumb{
+	background-color:#FDFBEE;
+	font-size: inherit;
+}
+
+.title-area {
+	padding:1px;
+	line-height:1;
+}
+
+.h1, {
+	margin-top:1px;
+}
+
+ .h4 {
+	margin-top:1px;
+}
+
+.home-bottom {
+	padding-top:10px;
+}
+
+body {
+	background-color: #fff;
+	color: #222;
+	font-family: 'Lato', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.425;
+}
+
+.entry-title {	
+	font-family: 'Playfair Display', serif;
+	text-transform: none;
+	color: white;
+	font-size: 24px;
+	background-color: #118D4F;
+	padding: 8px;
+}
+
+.sidebar {
+	color: white;
+	font-size: 16px;
+}
+
+.sidebar .widget {
+	/*background-color: #002A02;*/
+    background-color: #118D4F;
+}
+
+.sidebar .widget-title {	
+	font-family: 'Playfair Display', serif;
+	text-transform:none;
+	color: white;
+	font-size: 24px;
+	margin-top:5px;
+}
+
+.home-bottom {
+	background-color: #fff;
+}
+
+.home-bottom .widget-title {	
+	font-family: 'Playfair Display', serif;
+	text-transform: none;
+	color: white;
+	font-size: 24px;
+	background-color: #118D4F;
+	padding: 8px;
+}
+
+.footer-widgets {
+	font-size: 16px;
+	/*color: #F2F6E9;*/
+    color: #fff;
+	background-color:#363636;
+}
+
+.site-footer {
+	/*background-color: #03231C;*/
+   background-color: #363636;
+}
+
+.widget-title {	
+	font-family: 'Playfair Display', serif;
+	text-transform:none;
+	color:  #002A02;
+	font-size: 24px;
+}
+
+.footer-widgets .widget-title, .site-header .widget-title {
+	color: #fff;
+	font-size: 24px;
+}
+
+.widget li, .sidebar li a {
+		color: #FDB717;
+}
+
+a {
+	color: #FDB717;
+}
+
+ul, ol {
+margin-top: 0;
+margin-bottom: 0;
+}
+
+.content #genesis-responsive-slider {
+}
+
+.content .slide-excerpt {
+	background-color: rgba(17, 141, 79, 0.9);
+	border: none;
+	filter: alpha(opacity=10);
+	margin: 0;
+	opacity: 1;
+}
+
+.content #genesis-responsive-slider a, .content #genesis-responsive-slider h2 a:hover {
+	color:  #FDB717;
+	font-family: 'Playfair Display', serif;
+	text-transform:none;
+	font-size: 1.2rem;
+}
+
+#listcal {
+	display:inline-block;
+	float:right;
+	margin:0;
+	font-size:16px;
+}
+
+#gridcal {
+	display:inline-block;
+	float:left;
+	margin:0;
+}
+
+.gce-event-info{ /* Tooltip container */
+     background-color:#FFFFFF;
+     border:1px solid #333333;
+     max-width:300px;
+ }
+ 
+ .gce-event-info .gce-tooltip-title{ /* 'Events on...' text */
+     margin:5px;
+     font-weight:bold;
+     font-size:0.8em;
+ }
+ 
+ .gce-event-info ul{ /* Events list */
+     padding:0;
+     margin:5px;
+     list-style-type:none;
+	 font-size:0.8em;
+ }
+ 
+ .gce-event-info ul li{ /* Event list item */
+     margin:10px 0 0 0;
+ }
+ 
+ .gce-event-info ul li p{ /* Each piece of information */
+     margin:0;
+ }
+ 
+ .gce-event-info ul li p span,
+ .gce-event-info ul li div span{ /* The text displayed before each piece of info, 'Starts:' for example */
+     color:#002A02;
+ }
+ 
+ .gce-list-event, .gce-tooltip-event {
+background-color: #FDFBEE;
+padding: 0 5px;
+font-size:18px;
+color:#002A02;
+}
+
+/* Responsive Navigation
+---------------------------------------------------------------------------------------------------- */
+ 
+/* Standard Navigation
+--------------------------------------------- */
+ 
+nav-primary {
+	clear: both;
+	max-width: 59px;
+}
+ 
+/* Navigation toggles
+--------------------------------------------- */
+ 
+.sub-menu-toggle,
+.menu-toggle {
+	display: none;
+	visibility: hidden;
+}
+ 
+/* Navigation toggles - Ensure Menu Displays when Scaled Up
+--------------------------------------------- */
+ 
+@media only screen and (min-width: 768px) {
+ 
+	nav-primary {
+		display: block !important;
+	}
+}
+ 
+/* Navigation toggles - Mobile (Change max width as you see fit)
+--------------------------------------------- */
+ 
+@media only screen and (max-width: 767px) {
+ 
+	.menu-toggle,
+	.sub-menu-toggle {
+		display: block;
+		font-size: 20px;
+		font-size: 2rem;
+		font-weight: 700;
+		margin: 0 auto;
+		overflow: hidden;
+		padding: 20px;
+		padding: 2rem;
+		text-align: center;
+		visibility: visible;
+	}
+ 
+	button.menu-toggle,
+	button.sub-menu-toggle {
+		background-color: transparent;
+	}
+ 
+	.sub-menu-toggle {
+		padding: 18px;
+		padding: 1.8rem;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+ 
+	.menu-toggle:before {
+		content: "\2261";
+	}
+ 
+	.menu-toggle.activated:before {
+		content: "\2191";
+	}
+ 
+	.sub-menu-toggle:before {
+		content: "+";
+	}
+ 
+	.sub-menu-toggle.activated:before {
+		content: "-";
+	}
+ 
+	nav-primary {
+		display: none;
+		position: relative;
+		max-height: 100%;
+	}
+ 
+	.genesis-nav-menu .menu-item {
+		display: block;
+		position: relative;
+		text-align: left;
+	}
+ 
+	.genesis-nav-menu .menu-item:hover {
+		position: relative;
+	}
+ 
+	.genesis-nav-menu .sub-menu {
+		clear: both;
+		display: none;
+		opacity: 1;
+		position: static;
+		width: 100%;
+	}
+ 
+	.genesis-nav-menu .sub-menu a {
+		border-left: 0;
+		position: relative;
+		width: auto;
+	}
+ 
+	.genesis-nav-menu .sub-menu .sub-menu {
+		margin: 0;
+	}
+ 
+	.genesis-nav-menu .sub-menu .sub-menu a {
+		padding-left: 30px;
+	}
+ 
+	.genesis-nav-menu .sub-menu .sub-menu .sub-menu a {
+		padding-left: 40px;
+	}
+ 
+	.nav-primary a:hover,
+	.nav-primary .current-menu-item > a {
+	}
+ 
+}
