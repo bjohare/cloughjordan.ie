@@ -12,9 +12,25 @@ define( 'CHILD_THEME_VERSION', '3.0.0' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5' );
+//* site-inner
+add_theme_support( 'genesis-structural-wraps', array('header','nav','subnav','site-inner','footer-widgets','footer') );
+
 
 //* Add viewport meta tag for mobile browsers
 add_theme_support( 'genesis-responsive-viewport' );
+
+//*responsive-menu
+add_action( 'wp_enqueue_scripts', 'executive_enqueue_scripts' );
+/**
+ * Enqueue responsive javascript
+ * @author Ozzy Rodriguez
+ * @todo Change 'prefix' to your theme's prefix
+ */
+function executive_enqueue_scripts() {
+ 
+	wp_enqueue_script( 'executive-responsive-menu', get_stylesheet_directory_uri() . '/lib/js/responsive-menu.js', array( 'jquery' ), '1.0.0', true ); // Change 'prefix' to your theme's prefix
+ 
+}
 
 //* Enqueue Google fonts
 add_action( 'wp_enqueue_scripts', 'executive_google_fonts');

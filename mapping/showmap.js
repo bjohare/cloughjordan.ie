@@ -1,6 +1,6 @@
 var map;
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {    
     init($);
 });
 
@@ -49,8 +49,8 @@ var cycle_routes = new OpenLayers.Layer.Vector("Village Cycle Route North", {
             },
     strategies: [new OpenLayers.Strategy.BBOX()],
     protocol: new OpenLayers.Protocol.WFS({
-        url: "http://wordpress/map/?map=/home/ubuntu/mapfiles/village_cycle_routes.map",
-        featureType: ["village_cycle_route_north"]}),
+        url: "/map/?map=/home/ubuntu/mapfiles/heritage-south-cycle-route.map",
+        featureType: ["heritage_cycle_route_south"]}),
     });
 map.addLayers([cycle_routes]);
 
@@ -58,7 +58,7 @@ var heritage_waypoints = new OpenLayers.Layer.Vector("Heritage Cycle Route South
         srsName: "EPSG:4326",
         strategies: [new OpenLayers.Strategy.BBOX()],
         protocol: new OpenLayers.Protocol.WFS({
-            url: "http://wordpress/map/?map=/home/ubuntu/mapfiles/heritage_south_waypoints.map",
+            url: "/map/?map=/home/ubuntu/mapfiles/heritage-south-cycle-route.map",
             featureType: ["heritage_cycle_route_south_waypoints"]}),
         box: false,
         styleMap: pointStyles
@@ -84,7 +84,7 @@ OpenLayers.Control.GetFeature.prototype.selectClick = function(evt) {
     
 var infoctl = new OpenLayers.Control.GetFeature({
         protocol: OpenLayers.Protocol.WFS({
-            url: "http://wordpress/map/?map=/home/ubuntu/mapfiles/heritage_south_waypoints.map",
+            url: "/map/?map=/home/ubuntu/mapfiles/heritage-south-cycle-route.map",
             featureType: "heritage_cycle_route_south_waypoints",
             featurePrefix: "ms",
             maxFeatures: 10,
@@ -105,12 +105,12 @@ infoctl.events.register("featureselected", this, function(e){
         /* center the map on the selected waypoint */
         var center = new OpenLayers.LonLat(attrs.longitude, attrs.latitude);
         center.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
-        map.setCenter(center,12);
+        map.setCenter(center,13);
         
         /* clear existing feature info and rebuild */
         $('#info').empty();
         $('#info').append('<h4>' + attrs.name + '</h4>');
-        $('#info').append('<p><img src="http://54.229.185.240/manager/media/' + attrs.image_path + '"/></p>');
+        $('#info').append('<p><img src="http://54.229.185.240/comap/media/' + attrs.image_path + '"/></p>');
         $('#info').append('<p>' + attrs.description + '</p>');
         $('#info').append('<strong>Elevation:</strong> ' + attrs.elevation.split('.')[0] + ' metres<br/>');
         $('#info').append('<strong>Latitude:</strong> ' + attrs.latitude + '<br/>');
@@ -133,9 +133,9 @@ map.addControl(new OpenLayers.Control.ScaleLine());
 map.addControl(new OpenLayers.Control.LayerSwitcher());
 
 
-//* -8.0671912 52.9416268 -7.926025 53.017939
+//* -8.080757 52.887412 -7.996808 52.943225
 
-map.zoomToExtent(new OpenLayers.Bounds(-8.06,52.94,-7.92,53.01).transform("EPSG:4326", "EPSG:900913"));
+map.zoomToExtent(new OpenLayers.Bounds([-8.08, 52.887, -7.996, 52.943]).transform("EPSG:4326", "EPSG:900913"));
 
 }
 
