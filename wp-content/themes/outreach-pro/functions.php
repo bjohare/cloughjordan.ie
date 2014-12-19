@@ -27,7 +27,7 @@ function outreach_load_scripts() {
 	
 	wp_enqueue_style( 'dashicons' );
 	
-	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:400,700|Playfair+Display:400,700,400italic,700italic|Josefin+Sans:400,700|Josefin+Slab:400.700
+	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:400,700|Fira+Sans:400|Patua+one:400,700,400bold,700italic|Josefin+Sans:400,700|Josefin+Slab:400.700
                 
     ', array(), CHILD_THEME_VERSION );
 

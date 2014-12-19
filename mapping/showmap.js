@@ -17,7 +17,7 @@ var ocm =     new OpenLayers.Layer.OSM("OpenCycleMap",
 map.addLayers([ocm]);
 
 /* Styles */
- 
+
 var defaultStyle = new OpenLayers.Style({
     strokeColor: "#980000",
     fillColor: "green",
@@ -41,11 +41,13 @@ var pointStyles = new OpenLayers.StyleMap(
         "select": selectStyle
     });
 
-var cycle_routes = new OpenLayers.Layer.Vector("Village Cycle Route North", {
+var cycle_routes = new OpenLayers.Layer.Vector("Heritage Cycle Route South", {
     projection: "EPSG:4326",
     style: {
-            strokeColor: "#980000",
-            strokeWidth: 5
+            strokeColor: "#6e0045",
+            strokeWidth: 4,
+            strokeLinecap: "round",
+            strokeDashstyle: "dot"
             },
     strategies: [new OpenLayers.Strategy.BBOX()],
     protocol: new OpenLayers.Protocol.WFS({
@@ -54,7 +56,7 @@ var cycle_routes = new OpenLayers.Layer.Vector("Village Cycle Route North", {
     });
 map.addLayers([cycle_routes]);
 
-var heritage_waypoints = new OpenLayers.Layer.Vector("Heritage Cycle Route South", {
+var heritage_waypoints = new OpenLayers.Layer.Vector("Heritage Features", {
         srsName: "EPSG:4326",
         strategies: [new OpenLayers.Strategy.BBOX()],
         protocol: new OpenLayers.Protocol.WFS({
