@@ -23,19 +23,24 @@ Site Navigation
 .nav-primary {
 	/*background-color: #002A02;*/
     /*background-color: #118D4F;*/
-    background-color: #bdbdbd;
-    border-top: 1px solid #6e0045; 
-    border-bottom: 1px solid #6e0045;
+    background-color: #204811;
+    border-top: none; 
+    border-bottom: 1px solid #6e0004;
+	/*background-image: url(/images/07/header.jpg);*/
+	background-position: center bottom;
+	background-size: cover;
+    border-top: 1px solid #6e0004;
 }
 
 .genesis-nav-menu > .menu-item > a {
  	text-transform: none;
-    color: #363636;
+    color: #fff;
 }
 
 .genesis-nav-menu .menu-item {
-	font-size:18px;	
-	font-family: ;
+	font-size: 22px;	
+	font-family: 'Lato' sans-serif;
+	font-weight: 600;
 	text-transform:none;
 	color: #002A02;
 }
@@ -45,21 +50,36 @@ Site Navigation
 	font-family: ;
 	text-transform:none;
 	/*color: #002A02;*/
-    color: #363636;
 	background-color: #F6F6F6;
 }
 
 .genesis-nav-menu .current-menu-item > a, .genesis-nav-menu .sub-menu .current-menu-item > a:hover, .genesis-nav-menu a:hover, .genesis-nav-menu li:hover > a {
 	text-transform:none;
 	/*color: #118D4F;	*/
-    color: #6e0004;
+    color: #195E17;
 	font-family: ;
 	text-decoration:none;
 }
 .site-title {
 	text-transform:none;
 	/*font-weight:600;*/
-	font-size:46px;
+	/* WebKit (Safari/Chrome) Only 
+	  -webkit-text-stroke: 1px black;*/
+	  
+	  /* If we weren't using text-shadow, we'd set a fallback color
+	     and use this to set color instead
+	    -webkit-text-fill-color: white; 
+	  
+	  color: red;
+	  
+	  text-shadow:
+	    3px 3px 0 #000,
+	    /* Simulated effect for Firefox and Opera
+	       and nice enhancement for WebKit 
+	   -1px -1px 0 #000,  
+	    1px -1px 0 #000,
+	   -1px  1px 0 #000,
+	    1px  1px 0 #000;*/
 }
 
 .site-title a, .site-title a:hover {
@@ -71,7 +91,7 @@ Site Navigation
 }
 
 .site-header .wrap {
-padding: 12px 1% 12px;
+padding: 75px 1% 12px;
 }
 
 .site-description {
@@ -88,29 +108,44 @@ input {
 	color:#333;
 	background-color: #F6F6F6;
 	padding:10px;
-    border: 1px solid #6e0045;
+	border-radius: 25px;
+    border: 1px solid #195E17;
+	margin-right: 5px;
+	margin-bottom: 35px;
 }
 
 .home-bottom .featured-content img {
 	width: 100%;
 	height: 176px;
-	border-top: 1px solid #6e0045; 
-    border-bottom: 1px solid #6e0045; 
+	/*border-top: 1px solid #195E17; 
+    border-bottom: 1px solid #195E17; */
+    border-top: 1px solid #6e0004;
+    border-bottom: 1px solid #6e0004;
 }
 
 .featured-content img, .gallery img {
 	width: auto;
 	height: 176px;
-	border-top: 1px solid #6e0045; 
-    border-bottom: 1px solid #6e0045; 
+    border-radius: 4px;
+    border: 1px solid whitesmoke;
+}
+
+.content {
+    margin-top: -20px;
+    padding: 0px;
 }
 
 .site-header {
-	/*background-color: #002A02;*/
-	background-color: #363636;
-    border-top: #6e0045;
+	/*background-color: #002A02;
+	background-color: #fff;
+    border-top: #195E17;
 	padding:1px;		
-    border-bottom: #6e0045;
+    border-bottom: #195E17;*/
+    background-image: url(/images/07/header.jpg);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	background-size: cover;
+    max-height: 220px;
 }
 
 .breadcrumb{
@@ -150,8 +185,37 @@ body {
 	text-transform: none;
 	color: white;
 	font-size: 24px;
-	background-color: #363636;
+	background-color: #204811;
 	padding: 8px;
+    border-radius: 4px;
+}
+
+.footer-widgets h2.entry-title {
+    padding: 0px;
+}
+
+.gce-list-event {
+    background-color: #204811;
+    color: whitesmoke;
+    padding: 8px;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.gce-feed a {
+    color: #6ab446;
+}
+
+.su-posts a {
+    color: #6ab446;    
+}
+
+#gridcal {
+    padding-top: 20px;
+}
+
+.content .entry-title a {
+color: #fff;
 }
 
 .sidebar {
@@ -161,15 +225,15 @@ body {
 
 .sidebar .widget {
 	/*background-color: #002A02;*/
-    background-color: #bdbdbd;
-    border-top: 1px solid #6e0045;
-    border-bottom: 1px solid #6e0045;
+    background-color: #204811;
+    border-top: 1px solid #195E17;
+    border-bottom: 1px solid #195E17;
 }
 
 .sidebar .widget-title {	
 	font-family: 'Lato', serif;
 	text-transform:none;
-	color: #363636;
+	color: #fff;
 	font-size: 24px;
 	margin-top:5px;
 }
@@ -180,28 +244,40 @@ body {
 
 .home-bottom .widget-title {	
 	font-family: 'Lato', sans-serif;
+	font-size: 22px;
 	text-transform: none;
-	color: #363636;
-	font-size: 18px;
-	background-color: #bdbdbd;
+	color: #fff;
+	background-color: #204811;
 	padding: 8px;
-    border-top: 1px solid #6e0045;
-    border-bottom: 1px solid #6e0045;
+    border-top: 1px solid #195E17;
+    border-bottom: 1px solid #195E17;
+    border-radius: 4px;
 }
+
+.entry-content {
+    text-align: left;
+}
+
+.business a {
+    color: #006e6a;
+}    
 
 .footer-widgets {
 	font-size: 16px;
 	/*color: #F2F6E9;*/
-    color: #363636;
-	/*background-color:#363636;*/
-    background-color: #bdbdbd;
-    border-top: 1px solid #6e0045; 
+    color: #fff;
+	/*background-color:#fff;*/
+    background-color: #204811;
+    border-top: 1px solid #6e0004; 
 }
 
 .site-footer {
-	/*background-color: #03231C;*/
-   background-color: #363636;
-   border-top: 1px solid #6e0045;
+   background-color: #222222;
+   border-top: 1px solid whitesmoke;
+}
+
+.creds, .creds a {
+    color: whitesmoke;
 }
 
 .widget-title {	
@@ -212,20 +288,22 @@ body {
 }
 
 .footer-widgets .widget-title, .site-header .widget-title {
-	color: #363636;
+	color: #fff;
 	font-size: 24px;
 }
 
 .widget li, .sidebar li a {
-		color: #00456e;
+/*	color: #6ab446;*/
+    color: whitesmoke;
 }
 
 a.more-link {
-    color: #6e0004;
+    color: #6ab446;
 }
 
 a {
-	color: #005689;
+	/*color: #005689;*/
+    color: whitesmoke;
 }
 
 ul, ol {
@@ -234,16 +312,18 @@ margin-bottom: 0;
 }
 
 .content #genesis-responsive-slider {
+    border-top: 1px solid #6e0004;
 }
 
 .content .slide-excerpt {
-/*	background-color: rgba(17, 141, 79, 0.9);*/
-    background-color: rgba(110, 0, 15, 0.9);
+    background-color: rgba(110, 0, 4, 0.9);
+	/*background-color: rgba(32, 72, 16, 0.9);*/
+   /* background-color: rgba(0, 110, 15, 0.9);
 	border: none;
 	filter: alpha(opacity=10);
 	margin: 0;
 	opacity: 1;
-}
+}*/
 
 .content #genesis-responsive-slider a, .content #genesis-responsive-slider h2 a:hover {
 	color:  #000f6e;
@@ -308,28 +388,15 @@ color:#002A02;
 	-webkit-box-shadow: none;
 	-moz-box-shadow:    none;
 	box-shadow:         none;
-    border-top: 1px solid #6e0045; 
-    border-bottom: 1px solid #6e0045; 
+    border-top: 1px solid #195E17; 
+    border-bottom: 1px solid #195E17; 
 	padding: 0;
 }
 
-#business-list {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+.entry-content ul > li {
+list-style-type: none !important;
 }
 
-#business-list li{
-	list-style-type: none;
-}
-
-#business-list li a{
-	color: #002A02;
-}
-
-#business-list li a:hover{
-	color: #118D4F;
-}
 
 /* Responsive Navigation
 ---------------------------------------------------------------------------------------------------- */
@@ -337,9 +404,10 @@ color:#002A02;
 /* Standard Navigation
 --------------------------------------------- */
  
-nav-primary {
+.nav-primary {
 	clear: both;
 	max-width: 59px;
+    border-bottom: 1px solid #6e0004;
 }
  
 /* Navigation toggles
@@ -356,10 +424,9 @@ nav-primary {
  
 @media only screen and (min-width: 768px) {
  
-	nav-primary {
+	.nav-primary {
 		display: block !important;
 	}
-}
  
 /* Navigation toggles - Mobile (Change max width as you see fit)
 --------------------------------------------- */
@@ -409,7 +476,7 @@ nav-primary {
 		content: "-";
 	}
  
-	nav-primary {
+	.nav-primary {
 		display: none;
 		position: relative;
 		max-height: 100%;
@@ -454,5 +521,18 @@ nav-primary {
 	.nav-primary a:hover,
 	.nav-primary .current-menu-item > a {
 	}
- 
+	
+	.genesis-nav-menu.responsive-menu .menu-item-has-children > a {
+	margin-right: 60px;
+	background-color: rgb(1, 103, 69);
+    }
+
+    .site-header .search-form {
+		display: none;
+	}
+
+
 }
+
+
+

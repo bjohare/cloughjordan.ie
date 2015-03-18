@@ -66,10 +66,10 @@ add_action( 'init', 'gce_setup_cpt' );
 function gce_feed_messages( $messages ) {
 	global $post, $post_ID;
 
-	$url1 = '<a href="' . get_permalink( $post_ID ) . '">';
-	$url2 = 'feed';
+	$url1 = '<a href="' . esc_url( get_permalink( $post_ID ) ) . '">';
+	$url2 = __( 'feed', 'gce' );
 	$url3 = '</a>';
-	$s1   = 'Feed';
+	$s1   = __( 'Feed', 'gce' );
 
 	$messages['gce_feed'] = array(
 		1  => sprintf( __( '%4$s updated. %1$sView %2$s%3$s', 'gce' ), $url1, $url2, $url3, $s1 ),
@@ -91,12 +91,12 @@ add_filter( 'post_updated_messages', 'gce_feed_messages' );
  * @since 2.0.0
  */
 function gce_cpt_meta() {
-	add_meta_box( 'gce_feed_meta', 'Feed Settings', 'gce_display_meta', 'gce_feed', 'advanced', 'core' );
+	add_meta_box( 'gce_feed_meta', __( 'Feed Settings', 'gce' ), 'gce_display_meta', 'gce_feed', 'advanced', 'core' );
 
 	// Sidebar meta box below publish section.
-	add_meta_box( 'gce_feed_sidebar_help', 'Helpful Links', 'gce_feed_sidebar_help', 'gce_feed', 'side', 'core' );
+	add_meta_box( 'gce_feed_sidebar_help', __( 'Helpful Links', 'gce' ), 'gce_feed_sidebar_help', 'gce_feed', 'side', 'core' );
 
-	add_meta_box( 'gce_display_options_meta', 'Display Options', 'gce_display_options_meta', 'gce_feed', 'side', 'core' );
+	add_meta_box( 'gce_display_options_meta', __( 'Display Options', 'gce' ), 'gce_display_options_meta', 'gce_feed', 'side', 'core' );
 }
 add_action( 'add_meta_boxes', 'gce_cpt_meta' );
 
@@ -133,8 +133,12 @@ function gce_display_options_meta() {
  * @since 2.0.0
  */
 function gce_save_meta( $post_id ) {
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return $post_id;
+	}
+	
+	if( isset( $_REQUEST['bulk_edit'] ) ) {
+		return $post_id;
 	}
 
 	// An array to hold all of our post meta ids so we can run them through a loop
@@ -149,11 +153,23 @@ function gce_save_meta( $post_id ) {
 		'gce_custom_until',
 		'gce_search_query',
 		'gce_expand_recurring',
+		'gce_show_tooltips',
 		'gce_paging',
-		'gce_list_max_num',
-		'gce_list_max_length',
+		'gce_events_per_page',
+		'gce_per_page_num',
+		'gce_per_page_from',
+		'gce_per_page_to',
 		'gce_list_start_offset_num',
 		'gce_list_start_offset_direction',
+		'gce_feed_start',
+		'gce_feed_start_num',
+		'gce_feed_start_custom',
+		'gce_feed_end',
+		'gce_feed_end_num',
+		'gce_feed_end_custom',
+		'gce_feed_use_range',
+		'gce_feed_range_start',
+		'gce_feed_range_end',
 		// Display options
 		'gce_display_start',
 		'gce_display_start_text',
@@ -178,7 +194,27 @@ function gce_save_meta( $post_id ) {
 		foreach ( $post_meta_fields as $pmf ) {
 			if ( isset( $_POST[$pmf] ) && ! empty( $_POST[$pmf] ) ) {
 				if( $pmf == 'gce_feed_url' ) {
-					update_post_meta( $post_id, $pmf, esc_url( $_POST[$pmf] ) );
+					
+					$id = $_POST[$pmf];
+					
+					// convert from URL if user enters a URL link (like the old versions required)
+					if ( strpos( $id, 'https://www.google.com/calendar/feeds/' ) !== false ) {
+						$id = str_replace( 'https://www.google.com/calendar/feeds/', '', $id );
+						$id = str_replace( '/public/basic', '', $id );
+						$id = str_replace( '%40', '@', $id );
+					}
+					
+					// decode first before re-encoding it
+					$id = urldecode( $id );
+					$id = trim( $id );
+					
+					$at = strpos( $id, '@' );
+					
+					if ( $at !== false ) {
+						$id = substr_replace( $id, urlencode( substr( $id, 0, $at ) ), 0, $at );
+					}
+					
+					update_post_meta( $post_id, $pmf, $id );
 				} else {
 					update_post_meta( $post_id, $pmf, stripslashes( $_POST[$pmf] ) );
 				}
@@ -225,18 +261,21 @@ function gce_column_content( $column_name, $post_ID ) {
 			echo $post_ID;
 			break;
 		case 'feed-sc':
-			echo '<code>[gcal id="' . $post_ID . '"]</code>';
+			echo '<code>[gcal id="' . esc_attr( $post_ID ) . '"]</code>';
 			break;
 		case 'display-type':
 			$display = get_post_meta( $post_ID, 'gce_display_mode', true );
 			
-			if( $display == 'grid' ) {
+			if ( $display == 'grid' ) {
 				echo __( 'Grid', 'gce' );
-			} else if( $display == 'list' ) {
+			} elseif ( $display == 'list' ) {
 				echo __( 'List', 'gce' );
-			} else { 
+			} elseif ( $display == 'list-grouped' ) { 
 				echo __( 'Grouped List', 'gce' );
+			} elseif ( $display == 'date-range' ) {
+				echo __( 'Custom Date Range', 'gce' );
 			}
+			
 			break;
 	}
 }
@@ -249,7 +288,7 @@ add_action( 'manage_gce_feed_posts_custom_column', 'gce_column_content', 10, 2 )
  */
 function gce_cpt_actions( $actions, $post ) {
 	if( $post->post_type == 'gce_feed' ) {
-		$actions['clear_cache'] = '<a href="' . add_query_arg( array( 'clear_cache' => $post->ID ) ). '">Clear Cache</a>';
+		$actions['clear_cache'] = '<a href="' . add_query_arg( array( 'clear_cache' => $post->ID ) ). '">' . __( 'Clear Cache', 'gce' ) . '</a>';
 	}
 	
 	return $actions;

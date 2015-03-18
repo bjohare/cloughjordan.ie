@@ -22,6 +22,10 @@ function gce_upgrade() {
 	$version = get_option( 'gce_version' );
 	
 	if( ! empty( $version ) ) {
+		
+		// Clear out cache when upgrading no matter the version
+		gce_upgrade_clear_cache();
+		
 		// Check if under version 2 and run the v2 upgrade if we are
 		if( version_compare( $version, '2.0.0-beta1', '<' ) && false === get_option( 'gce_upgrade_has_run' ) ) {
 			gce_v2_upgrade();
@@ -31,12 +35,140 @@ function gce_upgrade() {
 		if( version_compare( $version, '2.0.4', '<' ) ) {
 			gce_v204_upgrade();
 		}
+		
+		// Version 2.0.6 upgrade
+		if( version_compare( $version, '2.0.6', '<' ) ) {
+			gce_v206_upgrade();
+		}
+		
+		if( version_compare( $version, '2.1.0', '<' ) ) {
+			gce_v210_upgrade();
+		}
+		
+		if( version_compare( $version, '2.2.0', '<' ) ) {
+			gce_v220_upgrade();
+		}
+		
+		if( version_compare( $version, '2.2.2', '<' ) ) {
+			gce_v222_upgrade();
+		}
 	}
 	
 	$new_version = Google_Calendar_Events::get_instance()->get_plugin_version();
 	update_option( 'gce_version', $new_version );
 	
 	add_option( 'gce_upgrade_has_run', 1 );
+}
+
+function gce_v222_upgrade() {
+	// Need to set the new option for always enqueuing scripts as default enabled for upgrading users
+	$options = get_option( 'gce_settings_general' );
+	
+	if( false !== $options ) {
+		$options['always_enqueue'] = 1;
+		update_option( 'gce_settings_general', $options );
+	}
+}
+
+function gce_v220_upgrade() {
+	// Update feeds
+	$q = new WP_Query( 'post_type=gce_feed' );
+	
+	if( $q->have_posts() ) {
+		while( $q->have_posts() ) {
+			
+			$q->the_post();
+			
+			$gce_list_max_num        = get_post_meta( get_the_ID(), 'gce_list_max_num', true );
+			$gce_list_max_length     = get_post_meta( get_the_ID(), 'gce_list_max_length', true );
+			$gce_feed_start_interval = get_post_meta( get_the_ID(), 'gce_feed_start_interval', true );
+			$gce_feed_start          = get_post_meta( get_the_ID(), 'gce_feed_start', true );
+			$gce_feed_end_interval   = get_post_meta( get_the_ID(), 'gce_feed_end_interval', true );
+			$gce_feed_end            = get_post_meta( get_the_ID(), 'gce_feed_end', true );
+			
+			update_post_meta( get_the_ID(), 'gce_per_page_num', $gce_list_max_num );
+			update_post_meta( get_the_ID(), 'gce_events_per_page', $gce_list_max_length );
+			update_post_meta( get_the_ID(), 'gce_feed_start', $gce_feed_start_interval );
+			update_post_meta( get_the_ID(), 'gce_feed_start_num', $gce_feed_start );
+			update_post_meta( get_the_ID(), 'gce_feed_end', $gce_feed_end_interval );
+			update_post_meta( get_the_ID(), 'gce_feed_end_num', $gce_feed_end );
+			
+			// Add new show tooltips option checked as default
+			update_post_meta( get_the_ID(), 'gce_show_tooltips', 1 );
+			
+		}
+	}
+	
+	wp_reset_postdata();
+	
+
+	// Update widgets for new UI
+	$widget = get_option( 'widget_gce_widget' );
+	
+	if( is_array( $widget ) && ! empty( $widget ) ) {
+		foreach( $widget as $a => $b ) {
+			if( ! is_array( $b ) ) {
+				continue;
+			} 
+
+			foreach( $b as $k => $v ) {
+				$widget[$a]['per_page_num']    = $widget[$a]['list_max_num'];
+				$widget[$a]['events_per_page'] = $widget[$a]['list_max_length'];
+			}
+		}
+		
+		update_option( 'widget_gce_widget', $widget );
+	}
+}
+
+/*
+ * Run the upgrade to version 2.1.0
+ */
+function gce_v210_upgrade() {
+	
+	$q = new WP_Query( 'post_type=gce_feed' );
+	
+	if( $q->have_posts() ) {
+		while( $q->have_posts() ) {
+			$q->the_post();
+			
+			$url = get_post_meta( get_the_ID(), 'gce_feed_url', true );
+			
+			// https://www.google.com/calendar/feeds/umsb0ekhivs1a2ubtq6vlqvcjk%40group.calendar.google.com/public/basic
+			
+			$url = str_replace( 'https://www.google.com/calendar/feeds/', '', $url );
+			$url = str_replace( '/public/basic', '', $url );
+			$url = str_replace( '%40', '@', $url );
+			
+			update_post_meta( get_the_ID(), 'gce_feed_url', $url );
+		}
+	}
+	
+	wp_reset_postdata();
+}
+
+/*
+ * Run the upgrade to version 2.0.6
+ * 
+ * @since 2.0.4
+ */
+function gce_v206_upgrade() {
+	
+	// Update feeds
+	$q = new WP_Query( 'post_type=gce_feed' );
+	
+	if( $q->have_posts() ) {
+		while( $q->have_posts() ) {
+			$q->the_post();
+			
+			update_post_meta( get_the_ID(), 'gce_feed_start', '1' );
+			update_post_meta( get_the_ID(), 'gce_feed_start_interval', 'months' );
+			update_post_meta( get_the_ID(), 'gce_feed_end', '2' );
+			update_post_meta( get_the_ID(), 'gce_feed_end_interval', 'years' );
+		}
+	}
+	
+	wp_reset_postdata();
 }
 
 /*
@@ -60,6 +192,8 @@ function gce_v204_upgrade() {
 			update_post_meta( get_the_ID(), 'gce_list_start_offset_direction', 'back' );
 		}
 	}
+	
+	wp_reset_postdata();
 	
 
 	// Update widgets
@@ -268,9 +402,9 @@ function update_widget_feed_ids() {
 
 				$id = $v;
 				
-				$multi = str_replace( ' ', '', $v );
+				//$multi = str_replace( ' ', '', $v );
 				
-				$multi = explode( ',', $id );
+				$multi = explode( ',', str_replace( ' ', '', $id ) );
 				
 				if( is_array( $multi ) ) {
 					
@@ -289,6 +423,8 @@ function update_widget_feed_ids() {
 						}
 					}
 					
+					wp_reset_postdata();
+					
 					$widget[$a][$k] = substr( $new_ids, 0, -1 );
 				} else {
 
@@ -300,6 +436,8 @@ function update_widget_feed_ids() {
 						// Set our ID to the old ID if found
 						$id = get_the_ID();
 					}
+					
+					wp_reset_postdata();
 
 					$widget[$a][$k] = $id;
 				}
@@ -309,4 +447,25 @@ function update_widget_feed_ids() {
 		update_option( 'widget_gce_widget', $widget );
 	}
 	
+}
+
+/** 
+ * Update widget IDs
+ * 
+ * @since 2.0.6.3
+ */
+function gce_upgrade_clear_cache() {
+	// Update feeds
+	$q = new WP_Query( 'post_type=gce_feed' );
+	
+	if( $q->have_posts() ) {
+		while( $q->have_posts() ) {
+			
+			$q->the_post();
+			
+			delete_transient( 'gce_feed_' . get_the_ID() );
+		}
+	}
+	
+	wp_reset_postdata();
 }

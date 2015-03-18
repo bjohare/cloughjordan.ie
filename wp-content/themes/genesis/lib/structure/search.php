@@ -27,7 +27,7 @@ add_filter( 'get_search_form', 'genesis_search_form' );
  * @return string HTML markup.
  */
 function genesis_search_form() {
-	$search_text = get_search_query() ? apply_filters( 'the_search_query', get_search_query() ) : apply_filters( 'genesis_search_text', __( 'Search this website', 'genesis' ) . '&#x02026;' );
+	$search_text = get_search_query() ? apply_filters( 'the_search_query', get_search_query() ) : apply_filters( 'genesis_search_text', __( 'Search our website', 'genesis' ) . '&#x02026;' );
 
 	$button_text = apply_filters( 'genesis_search_button_text', esc_attr__( 'Search', 'genesis' ) );
 

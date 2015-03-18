@@ -1977,4 +1977,9 @@ Media Queries
 		background-size: contain !important;
 	}
 
+    .genesis-nav-menu.responsive-menu > .menu-item > .sub-menu {
+            display: none;
+                    background-color: green;
+                        }
+
 }

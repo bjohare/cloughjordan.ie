@@ -35,13 +35,21 @@ class GCE_Event {
 				$this->day_type = 'SWD';
 			} else {
 				if ( ( '12:00 am' == date( 'g:i a', $start_time ) ) && ( '12:00 am' == date( 'g:i a', $end_time ) ) ) {
-					$this->day_type = 'MWD';
+					if( $end_time - $start_time > 86400 ) {
+						$this->day_type = 'MWD';
+					} else {
+						$this->day_type = 'SWD';
+					}
 				} else {
 					$this->day_type = 'MPD';
 				}
 			}
 		} else {
-			$this->day_type = 'SPD';
+			if( date( 'D', $start_time ) == date( 'D', $end_time ) ) {
+				$this->day_type = 'SPD';
+			} else {
+				$this->day_type = 'MPD';
+			}
 		}
 	}
 	
@@ -50,32 +58,37 @@ class GCE_Event {
 	 * 
 	 * @since 2.0.0
 	 */
-	function get_days() {
-		//Round start date to nearest day
-		$start_time = mktime( 0, 0, 0, date( 'm', $this->start_time ), date( 'd', $this->start_time ) , date( 'Y', $this->start_time ) );
+	function get_days() {	
+		
+		if( $this->start_time !== null ) {
+			//Round start date to nearest day
+			$start_time = mktime( 0, 0, 0, date( 'm', $this->start_time ), date( 'd', $this->start_time ) , date( 'Y', $this->start_time ) );
 
-		$days = array();
+			$days = array();
 
-		//If multiple day events should be handled, and this event is a multi-day event, add multiple day event to required days
-		if ( $this->feed->multiple_day_events && ( 'MPD' == $this->day_type || 'MWD' == $this->day_type ) ) {
-			$on_next_day = true;
-			$next_day = $start_time;
+			//If multiple day events should be handled, and this event is a multi-day event, add multiple day event to required days
+			if ( $this->feed->multiple_day_events && ( 'MPD' == $this->day_type || 'MWD' == $this->day_type ) ) {
+				$on_next_day = true;
+				$next_day = $start_time;
 
-			while ( $on_next_day ) {
-				//If the end time of the event is after 00:00 on the next day (therefore, not doesn't end on this day)
-				if ( $this->end_time > $next_day ) {
-					$days[] = $next_day;
-				} else {
-					$on_next_day = false;
+				while ( $on_next_day ) {
+					//If the end time of the event is after 00:00 on the next day (therefore, not doesn't end on this day)
+					if ( $this->end_time > $next_day ) {
+						$days[] = $next_day;
+					} else {
+						$on_next_day = false;
+					}
+					$next_day += 86400;
 				}
-				$next_day += 86400;
+			} else {
+				//Add event into array of events for that day
+				$days[] = $start_time;
 			}
-		} else {
-			//Add event into array of events for that day
-			$days[] = $start_time;
-		}
 
-		return $days;
+			return $days;
+		} else {
+			return array();
+		}
 	}
 
 	/**
@@ -84,10 +97,6 @@ class GCE_Event {
 	 * @since 2.0.0
 	 */
 	function get_event_markup( $display_type, $num_in_day, $num ) {
-		
-		
-		
-		
 		//Set the display type (either tooltip or list)
 		$this->type = $display_type;
 
@@ -106,9 +115,7 @@ class GCE_Event {
 			return $this->use_builder();
 		}
 
-		// Setup the markup to return
-		//$display_options = get_option( 'gce_settings_general' );
-		
+		// Setup the markup to return		
 		$display_options['display_start']         = get_post_meta( $this->feed->id, 'gce_display_start', true );
 		$display_options['display_start_text']    = get_post_meta( $this->feed->id, 'gce_display_start_text', true );
 		$display_options['display_end']           = get_post_meta( $this->feed->id, 'gce_display_end', true );
@@ -123,7 +130,7 @@ class GCE_Event {
 		$display_options['display_separator']     = get_post_meta( $this->feed->id, 'gce_display_separator', true );
 		$display_options['display_link_target']   = get_post_meta( $this->feed->id, 'gce_display_link_tab', true );
 		
-		$markup = '<p class="gce-' . $this->type . '-event">' . esc_html( $this->title )  . '</p>';
+		$markup = '<p class="gce-' . esc_attr( $this->type ) . '-event">' . esc_html( $this->title )  . '</p>';
 
 		$start_end = array();
 
@@ -147,7 +154,7 @@ class GCE_Event {
 
 		//Add the correct start / end, date / time information to $markup
 		foreach ( $start_end as $start_or_end => $info ) {
-			$markup .= '<p class="gce-' . $this->type . '-' . $start_or_end . '"><span>' . esc_html( $display_options['display_' . $start_or_end . '_text'] ) . '</span> ';
+			$markup .= '<p class="gce-' . esc_attr( $this->type ) . '-' . $start_or_end . '"><span>' . esc_html( $display_options['display_' . $start_or_end . '_text'] ) . '</span> ';
 			
 			if( ! empty( $display_options['display_' . $start_or_end] ) ) {
 				switch ( $display_options['display_' . $start_or_end] ) {
@@ -165,14 +172,14 @@ class GCE_Event {
 		}
 
 		//If location should be displayed (and is not empty) add to $markup
-		if ( isset( $display_options['display_location'] ) ) {
+		if ( ! empty( $display_options['display_location'] ) ) {
 			$event_location = $this->location;
 			if ( '' != $event_location )
-				$markup .= '<p class="gce-' . $this->type . '-loc"><span>' . esc_html( $display_options['display_location_text'] ) . '</span> ' . esc_html( $event_location ) . '</p>';
+				$markup .= '<p class="gce-' . esc_attr( $this->type ) . '-loc"><span>' . esc_html( $display_options['display_location_text'] ) . '</span> ' . esc_html( $event_location ) . '</p>';
 		}
 
 		//If description should be displayed (and is not empty) add to $markup
-		if ( isset($display_options['display_desc'] ) ) {
+		if ( ! empty( $display_options['display_desc'] ) ) {
 			$event_desc = $this->description;
 
 			if ( '' != $event_desc ) {
@@ -182,14 +189,24 @@ class GCE_Event {
 					$event_desc = trim( $event_desc[0] );
 				}
 
-				$markup .= '<p class="gce-' . $this->type . '-desc"><span>' . $display_options['display_desc_text'] . '</span> ' . make_clickable( nl2br( esc_html( $event_desc ) ) ) . '</p>';
+				$markup .= '<p class="gce-' . esc_attr( $this->type ) . '-desc"><span>' . esc_html( $display_options['display_desc_text'] ) . '</span> ' . make_clickable( nl2br( esc_html( $event_desc ) ) ) . '</p>';
 			}
 		}
 
 		//If link should be displayed add to $markup
-		if ( isset($display_options['display_link'] ) ) {
+		if ( ! empty( $display_options['display_link'] ) ) {
 			$target = ( ! empty( $display_options['display_link_target'] ) ? 'target="blank"' : '' );
-			$markup .= '<p class="gce-' . $this->type . '-link"><a href="' . esc_url( $this->link ) . '" ' . $target . '>' . esc_html( $display_options['display_link_text'] ) . '</a></p>';
+			
+			$ctz  = get_option( 'timezone_string' );
+			
+			// Check if it is a hangouts link first
+			if( strpos( $this->link, 'plus.google.com/events/' ) !== false ) {
+				$link = $this->link;
+			} else {
+				$link = $this->link . ( ! empty( $ctz ) ? '&ctz=' . $ctz : '' );
+			}
+			
+			$markup .= '<p class="gce-' . esc_attr( $this->type ) . '-link"><a href="' . esc_url( $link ) . '" ' . esc_attr( $target ) . '>' . esc_html( $display_options['display_link_text'] ) . '</a></p>';
 		}
 
 		return $markup;
@@ -358,7 +375,16 @@ class GCE_Event {
 
 			case 'link':
 				$new_window = ( $newwindow ) ? ' target="_blank"' : '';
-				return $m[1] . '<a href="' . esc_url( $this->link ) . '"' . $new_window . '>' . $this->look_for_shortcodes( $m[5] ) . '</a>' . $m[6];
+				$ctz  = get_option( 'timezone_string' );
+				
+				// Check if it is a hangouts link first
+				if( strpos( $this->link, 'plus.google.com/events/' ) !== false ) {
+					$link = $this->link;
+				} else {
+					$link = $this->link . ( ! empty( $ctz ) ? '&ctz=' . $ctz : '' );
+				}
+			
+				return $m[1] . '<a href="' . esc_url( $link ) . '"' . esc_attr( $new_window ) . '>' . $this->look_for_shortcodes( $m[5] ) . '</a>' . $m[6];
 
 			case 'url':
 				return $m[1] . esc_url( $this->link ) . $m[6];
@@ -371,7 +397,7 @@ class GCE_Event {
 
 			case 'maps-link':
 				$new_window = ( $newwindow ) ? ' target="_blank"' : '';
-				return $m[1] . '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $this->location ) ) . '"' . $new_window . '>' . $this->look_for_shortcodes( $m[5] ) . '</a>' . $m[6];
+				return $m[1] . '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $this->location ) ) . '"' . esc_attr( $new_window ) . '>' . $this->look_for_shortcodes( $m[5] ) . '</a>' . $m[6];
 
 			case 'length':
 				return $m[1] . $this->gce_human_time_diff( $this->start_time, $this->end_time, $precision ) . $m[6];
@@ -383,8 +409,8 @@ class GCE_Event {
 				return $m[1] . esc_html( $this->id ) . $m[6];
 
 			case 'cal-id':
-				$cal_id = explode( '/', $this->feed->feed_url );
-				return $m[1] . esc_html( $cal_id[5] ) . $m[6];
+				//$cal_id = explode( '/', $this->feed->feed_url );
+				return $m[1] . $this->feed->calendar_id . $m[6];
 
 			case 'if-all-day':
 				if ( 'SWD' == $this->day_type || 'MWD' == $this->day_type )
